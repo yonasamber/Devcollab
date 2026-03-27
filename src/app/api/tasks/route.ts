@@ -1,6 +1,6 @@
 import { connectDB } from "@/lib/db";
 import Task from "@/models/Task";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET() {
   await connectDB();
@@ -9,10 +9,25 @@ export async function GET() {
   return NextResponse.json({ success: true, tasks });
 }
 
-export async function POST(req: Request) {
-  await connectDB();
-  const body = await req.json();
-  const task = await Task.create(body);
+export async function POST(req: NextRequest) {
+  try {
+    await connectDB();
+    const body = await req.json();
+    const task = await Task.create({
+      title: body.title,
+      projectId: body.projectId,
+      status: "todo",
+    });
+    return NextResponse.json({ success: true, task });
+  } catch (error) {
+    console.log("CREATE TASK ERROR:", error);
 
-  return NextResponse.json({ success: true, task });
+    return NextResponse.json(
+      {
+        success: false,
+        message: "Server Error",
+      },
+      { status: 500 },
+    );
+  }
 }
