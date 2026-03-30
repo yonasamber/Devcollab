@@ -3,6 +3,8 @@ import { Task } from "@/types";
 import { Draggable } from "@hello-pangea/dnd";
 import TaskComments from "./TaskComments";
 import PriorityBadge from "./PriorityBadge";
+import { useState } from "react";
+import EditTaskModal from "./EditTaskModal";
 
 export default function TaskCard({
   task,
@@ -12,6 +14,8 @@ export default function TaskCard({
   index: number;
 }) {
   const del = useDeleteTask();
+
+  const [editOpen, setEditOpen] = useState(false);
 
   return (
     <Draggable draggableId={task._id} index={index}>
@@ -33,14 +37,29 @@ export default function TaskCard({
               </p>
             )}
 
-            <button
-              onClick={() => del.mutate(task._id)}
-              className="text-red-500 text-xs"
-            >
-              Delete
-            </button>
+            {/* Hover buttons */}
+
+            <div className="flex flex-col gap-1 opacity-0 group-hover:opacity-100 ml-2">
+              <button
+                className="text-blue-500 text-xs"
+                onClick={() => setEditOpen(true)}
+              >
+                Edit
+              </button>
+
+              <button
+                onClick={() => del.mutate(task._id)}
+                className="text-red-500 text-xs"
+              >
+                Delete
+              </button>
+            </div>
           </div>
           <TaskComments taskId={task._id} />
+
+          {editOpen && (
+            <EditTaskModal task={task} close={() => setEditOpen(false)} />
+          )}
         </div>
       )}
     </Draggable>
