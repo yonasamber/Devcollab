@@ -34,3 +34,15 @@ export const useUpdateTask = () => {
     },
   });
 };
+
+export const useDeleteTask = () => {
+  const qc = useQueryClient();
+
+  return useMutation({
+    mutationFn: (id: string) => api.delete(`/tasks/${id}`),
+
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["tasks"] });
+    },
+  });
+};

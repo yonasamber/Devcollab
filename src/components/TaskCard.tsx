@@ -1,5 +1,7 @@
+import { useDeleteTask } from "@/hooks/useTasks";
 import { Task } from "@/types";
 import { Draggable } from "@hello-pangea/dnd";
+import TaskComments from "./TaskComments";
 
 export default function TaskCard({
   task,
@@ -8,6 +10,8 @@ export default function TaskCard({
   task: Task;
   index: number;
 }) {
+  const del = useDeleteTask();
+
   return (
     <Draggable draggableId={task._id} index={index}>
       {(provided) => (
@@ -17,13 +21,16 @@ export default function TaskCard({
           {...provided.dragHandleProps}
           {...provided.draggableProps}
         >
-          <h3 className="font-semibold">{task.title}</h3>
-          <p className="text-xs text-gray-500">{task.priority}</p>
-          {task.dueDate && (
-            <p className="text-xs text-red-400">
-              {new Date(task.dueDate).toDateString()}
-            </p>
-          )}
+          <div className="flex justify-between">
+            <p className="font-medium">{task.title}</p>
+            <button
+              onClick={() => del.mutate(task._id)}
+              className="text-red-500 text-xs"
+            >
+              Delete
+            </button>
+          </div>
+          <TaskComments taskId={task._id} />
         </div>
       )}
     </Draggable>

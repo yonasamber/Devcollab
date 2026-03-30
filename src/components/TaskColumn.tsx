@@ -9,6 +9,16 @@ export default function TaskColumn({
   title: string;
   tasks: Task[];
 }) {
+  if (!tasks) {
+    return (
+      <div className="w-72 bg-gray-100 p-3 rounded">
+        <div className="animate-pulse space-y-2">
+          <div className="h-10 bg-gray-300 rounded"></div>
+          <div className="h-10 bg-gray-300 rounded"></div>
+        </div>
+      </div>
+    );
+  }
   return (
     <Droppable droppableId={title}>
       {(provided) => (
@@ -21,6 +31,10 @@ export default function TaskColumn({
           {tasks.map((task, index) => (
             <TaskCard key={task._id} task={task} index={index} />
           ))}
+
+          {tasks.length === 0 && (
+            <p className="text-gray-400 text-sm">No tasks yet</p>
+          )}
           {provided.placeholder}
         </div>
       )}

@@ -1,16 +1,30 @@
 import { connectDB } from "@/lib/db";
 import Comment from "@/models/Comment";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   await connectDB();
-  const comments = Comment.find();
-  return NextResponse.json({ success: true, comments });
+
+  const taskId = req.nextUrl.searchParams.get("taskId");
+
+  const comments = await Comment.find({ taskId });
+
+  return NextResponse.json({ comments });
 }
 
-export async function POST(req: Request) {
-  await connectDB();
-  const body = await req.json();
-  const comment = await Comment.create(body);
-  return NextResponse.json({ success: true, comment });
+export async function POST(req: NextRequest) {
+  try {
+    await connectDB();
+
+    const { taskId, text } = await req.json();
+
+    const comment = await Comment.create({ taskId, text });
+
+    return NextResponse.json({
+      success: true,
+      comment,
+    });
+  } catch (error) {
+    return NextResponse.json({ success: false }, { status: 500 });
+  }
 }

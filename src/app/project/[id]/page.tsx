@@ -4,13 +4,15 @@ import CreateTaskModal from "@/components/CreateTaskModal";
 import TaskColumn from "@/components/TaskColumn";
 import { useTasks, useUpdateTask } from "@/hooks/useTasks";
 import { DragDropContext } from "@hello-pangea/dnd";
+import { use } from "react";
 
-interface Params {
-  id: string;
-}
+type Params = Promise<{ id: string }>;
 
 export default function ProjectPage({ params }: { params: Params }) {
-  const { data: tasks } = useTasks(params.id);
+  const { id } = use(params);
+
+  const { data: tasks } = useTasks(id);
+
   const statuses: ("todo" | "doing" | "done")[] = ["todo", "doing", "done"];
   const update = useUpdateTask();
 
@@ -30,7 +32,7 @@ export default function ProjectPage({ params }: { params: Params }) {
     <div className="p-8">
       <div className="flex justify-between mb-4">
         <h1 className="text-2xl font-bold">Project Board</h1>
-        <CreateTaskModal projectId={params.id} />
+        <CreateTaskModal projectId={id} />
       </div>
       <DragDropContext onDragEnd={onDragEnd}>
         <div className="flex gap-4">
