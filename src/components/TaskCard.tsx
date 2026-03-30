@@ -2,6 +2,7 @@ import { useDeleteTask } from "@/hooks/useTasks";
 import { Task } from "@/types";
 import { Draggable } from "@hello-pangea/dnd";
 import TaskComments from "./TaskComments";
+import PriorityBadge from "./PriorityBadge";
 
 export default function TaskCard({
   task,
@@ -22,7 +23,16 @@ export default function TaskCard({
           {...provided.draggableProps}
         >
           <div className="flex justify-between">
-            <p className="font-medium">{task.title}</p>
+            <div className="flex justify-between items-center">
+              <p className="font-medium">{task.title}</p>
+              <PriorityBadge priority={task.priority} />
+            </div>
+            {task.dueDate && (
+              <p className="text-xs text-gray-500 mt-1">
+                Due: {new Date(task.dueDate).toLocaleDateString()}
+              </p>
+            )}
+
             <button
               onClick={() => del.mutate(task._id)}
               className="text-red-500 text-xs"

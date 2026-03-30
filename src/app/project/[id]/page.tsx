@@ -1,10 +1,12 @@
 "use client";
 
 import CreateTaskModal from "@/components/CreateTaskModal";
+import TaskSearch from "@/components/ProjectSearch";
+import ProjectStats from "@/components/ProjectStats";
 import TaskColumn from "@/components/TaskColumn";
 import { useTasks, useUpdateTask } from "@/hooks/useTasks";
 import { DragDropContext } from "@hello-pangea/dnd";
-import { use } from "react";
+import { use, useState } from "react";
 
 type Params = Promise<{ id: string }>;
 
@@ -12,6 +14,7 @@ export default function ProjectPage({ params }: { params: Params }) {
   const { id } = use(params);
 
   const { data: tasks } = useTasks(id);
+  const [search, setSearch] = useState("");
 
   const statuses: ("todo" | "doing" | "done")[] = ["todo", "doing", "done"];
   const update = useUpdateTask();
@@ -44,6 +47,8 @@ export default function ProjectPage({ params }: { params: Params }) {
             />
           ))}
         </div>
+        <TaskSearch setSearch={setSearch} />
+        <ProjectStats tasks={tasks || []} />
       </DragDropContext>
     </div>
   );

@@ -5,11 +5,13 @@ import { useCreateTask } from "@/hooks/useTasks";
 
 export default function CreateTaskModal({ projectId }: { projectId: string }) {
   const [title, setTitle] = useState("");
+  const [priority, setPriority] = useState("medium");
+  const [dueDate, setDueDate] = useState("");
   const createTask = useCreateTask();
 
   const handleCreate = () => {
     if (!title) return;
-    createTask.mutate({ title, projectId });
+    createTask.mutate({ title, projectId, priority, dueDate });
     setTitle("");
   };
 
@@ -21,6 +23,21 @@ export default function CreateTaskModal({ projectId }: { projectId: string }) {
         className="border p-2 rounded"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
+      />
+      <select
+        className="border p-2 rounded w-full "
+        value={priority}
+        onChange={(e) => setPriority(e.target.value)}
+      >
+        <option value="low">Low</option>
+        <option value="medium">Medium</option>
+        <option value="high">High</option>
+      </select>
+      <input
+        type="date"
+        className="border p-2 rounded w-full"
+        value={dueDate}
+        onChange={(e) => setDueDate(e.target.value)}
       />
       <button
         onClick={handleCreate}
