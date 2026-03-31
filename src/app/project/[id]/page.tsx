@@ -22,6 +22,8 @@ export default function ProjectPage({ params }: { params: Params }) {
   const onDragEnd = (result: any) => {
     if (!result.destination) return;
 
+    console.log("dragging task", id);
+    console.log("PUT URL:", `api/tasks/${id}`);
     const taskId = result.draggableId;
     const newStatus = result.destination.droppableId;
 

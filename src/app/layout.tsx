@@ -33,8 +33,12 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         <ReactQueryProvider>
           <Navbar />
-          <Sidebar />
-          {children}
+
+          <div className="flex flex-1">
+            <Sidebar />
+
+            <main className="flex-1 p-8">{children}</main>
+          </div>
         </ReactQueryProvider>
       </body>
     </html>

@@ -23,7 +23,7 @@ export default function TaskColumn({
     <Droppable droppableId={title}>
       {(provided) => (
         <div
-          className="flex-1 bg-gray-100 p-3 rounded"
+          className="w-72 bg-gray-100 p-3 rounded flex flex-col"
           ref={provided.innerRef}
           {...provided.droppableProps}
         >

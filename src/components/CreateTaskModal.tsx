@@ -11,7 +11,7 @@ export default function CreateTaskModal({ projectId }: { projectId: string }) {
 
   const handleCreate = () => {
     if (!title) return;
-    createTask.mutate({ title, projectId, priority, dueDate });
+    createTask.mutate({ title, priority, projectId, dueDate });
     setTitle("");
   };
 
