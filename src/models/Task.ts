@@ -12,6 +12,18 @@ const TaskSchema = new mongoose.Schema(
       enum: ["low", "medium", "high"],
       default: "medium",
     },
+    labels: [
+      {
+        name: String,
+        color: String,
+      },
+    ],
+    comments: [
+      {
+        text: String,
+        createdAt: Date,
+      },
+    ],
     dueDate: { type: Date },
   },
   { timestamps: true },

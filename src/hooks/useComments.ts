@@ -15,7 +15,7 @@ export const useCreateComment = () => {
   const qc = useQueryClient();
 
   return useMutation({
-    mutationFn: (data: any) => api.post("/comments", data),
+    mutationFn: (data: any) => api.post(`/comments`, data),
     onSuccess: (_, variables) => {
       qc.invalidateQueries({
         queryKey: ["comments", variables.taskId],

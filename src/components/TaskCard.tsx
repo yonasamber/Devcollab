@@ -8,6 +8,8 @@ import EditTaskModal from "./EditTaskModal";
 import TaskHeader from "./TaskHeader";
 import TaskMeta from "./TaskMeta";
 import TaskActions from "./TaskActions";
+import TaskLabels from "./TaskLabels";
+import LabelPicker from "./labels/LabelPicker";
 
 export default function TaskCard({
   task,
@@ -32,7 +34,11 @@ export default function TaskCard({
           <div className="flex justify-between">
             <div>
               <TaskHeader task={task} />
+
+              <TaskLabels labels={task.labels} />
+
               <TaskMeta task={task} />
+              <LabelPicker takId={task._id} />
             </div>
 
             <TaskActions task={task} onEdit={() => setEditOpen(true)} />
